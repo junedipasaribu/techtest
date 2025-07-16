@@ -1,0 +1,33 @@
+/* src/App.css */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.app-container {
+  background-image: url('https://images.unsplash.com/photo-1678690832324-67961a27ca92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhY2tncm91bmQlMjB3ZWJzaXRlfGVufDB8fDB8fHww');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  color: white;
+  padding: 5px;
+    font-family: Arial, sans-serif;
+
+  
+}
+.movie-search {
+  width: 50%;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: none;
+  font-size: 10px;
+
+}
+.app-header {
+  text-align: center;
+  margin-bottom: 20px;
+    color: black;
+}   
