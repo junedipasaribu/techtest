@@ -1,33 +1,232 @@
-/* src/App.css */
-body, html, #root {
+/* === Reset & Base Styles === */
+* {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  height: 100%;
 }
 
-.app-container {
-  background-image: url('https://images.unsplash.com/photo-1678690832324-67961a27ca92?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fGJhY2tncm91bmQlMjB3ZWJzaXRlfGVufDB8fDB8fHww');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  min-height: 100vh;
-  color: white;
-  padding: 5px;
-    font-family: Arial, sans-serif;
-
-  
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #121212;
+  color: #e0e0e0;
+  line-height: 1.5;
 }
-.movie-search {
-  width: 50%;
-  padding: 10px;
-  margin-bottom: 20px;
-  border-radius: 5px;
+
+/* === Navbar === */
+.nav-bar {
+  background-color: #1f1f1f;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #444;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  color: #f5c518;
+}
+
+/* === Search Box === */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.search {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
   border: none;
-  font-size: 10px;
-
+  width: 280px;
 }
-.app-header {
-  text-align: center;
-  margin-bottom: 20px;
-    color: black;
-}   
+
+.search-results {
+  margin-top: 0.3rem;
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+/* === Status === */
+.status {
+  background-color: #222;
+  color: #ccc;
+  padding: 0.5rem 2rem;
+  font-size: 0.875rem;
+  text-align: right;
+}
+
+/* === Main Layout === */
+.main {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+/* === Movie Grid === */
+.list-movie {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  list-style: none;
+}
+
+.list-movie li {
+  background-color: #292929;
+  padding: 1rem;
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.list-movie li:hover {
+  transform: scale(1.03);
+  background-color: #333;
+}
+
+.list-movie img {
+  border-radius: 8px;
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+.list-movie h3 {
+  margin-top: 0.6rem;
+  color: #f5c518;
+  font-size: 1.1rem;
+}
+
+.list-movie p span {
+  color: #ccc;
+  font-size: 0.85rem;
+}
+
+.list-movie button {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.8rem;
+  border: none;
+  background-color: #f5c518;
+  color: #000;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.list-movie button:hover {
+  background-color: #ffe580;
+}
+
+/* === Modal Detail === */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: #1f1f1f;
+  padding: 2rem;
+  border-radius: 12px;
+  max-width: 600px;
+  width: 90%;
+  position: relative;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+  width: 120px;
+  float: left;
+  margin-right: 1rem;
+  border-radius: 8px;
+}
+
+.modal-content h2 {
+  margin-bottom: 0.5rem;
+  color: #f5c518;
+}
+
+.modal-content p {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  color: #aaa;
+  font-size: 1.5rem;
+  border: none;
+  cursor: pointer;
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
+/* === Watched Movies (Smaller) === */
+.box.watched {
+  background-color: #1f1f1f;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 220px;
+  height: fit-content;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.box.watched h2 {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.box.watched ul {
+  list-style: none;
+  font-size: 0.85rem;
+  color: #bbb;
+  padding-left: 1rem;
+}
+
+.box.watched li {
+  margin-bottom: 0.3rem;
+}
+
+/* === Toggle Button === */
+.btn-toggle {
+  background-color: transparent;
+  border: none;
+  color: #f5c518;
+  font-size: 1.5rem;
+  cursor: pointer;
+  float: right;
+}
+
+/* === Responsive === */
+@media screen and (max-width: 768px) {
+  .main {
+    grid-template-columns: 1fr;
+  }
+
+  .box.watched {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}

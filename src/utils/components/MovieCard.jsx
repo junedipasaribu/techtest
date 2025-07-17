@@ -19,7 +19,30 @@ function MovieCard({ movie, onWatch, watched }) {
        <h6>({movie.ganre})</h6>
        <h7>({movie.director})</h7>
        
-    
+      <button style={{
+        
+        position: '',
+        top: '10px',
+        backgroundColor: 'blue',
+        color: 'white',
+        padding: '5px 10px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer'
+      }}>Watch
+        <span role="img" aria-label="play">    ▶️</span>
+      </button>
+      <button style={{
+        backgroundColor: 'green',
+        position: '',
+        color: 'white',
+        padding: '5px 10px',
+        border: 'none',
+        borderRadius: '5px',
+        cursor: 'pointer'
+      }}>Watchlist
+        <span role="img" aria-label="bookmark">    🔖</span>
+      </button>
         <button onClick={() => onWatch(movie)} disabled={watched}>
         {watched ? "Watched" : "Mark as Watched"}
       </button>

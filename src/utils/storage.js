@@ -1,12 +1,8 @@
-// src/utils/storage.js
-
-const STORAGE_KEY = 'watched_movies';
-
-export const getWatchedMovies = () => {
-  const data = localStorage.getItem(STORAGE_KEY);
+export function getWatchedMovies() {
+  const data = localStorage.getItem('watched');
   return data ? JSON.parse(data) : [];
-};
+}
 
-export const saveWatchedMovies = (movies) => {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(movies));
-};
+export function saveWatchedMovies(movies) {
+  localStorage.setItem('watched', JSON.stringify(movies));
+}
