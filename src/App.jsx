@@ -253,7 +253,6 @@ const moviesData = [
     synopsis:
       'A courageous and athletic teenager, Kayara dreams that she is destined to be the first female to break into the league of Chasquis - the official messengers of the Incan empire. As she learns what it takes to be a Chasqui along with its challenges, she tackles every mission she gets and discovers the ancient stories of her land and her people.'
   },
-  // Daftar 20+ film tetap disisipkan di sini
 ];
 
 export default function App() {
@@ -266,32 +265,50 @@ export default function App() {
   const [watched, setWatched] = useState(() => getWatchedMovies() || []);
   const [pendingUpdates, setPendingUpdates] = useState([]);
 
+  const [newComment, setNewComment] = useState('');
+  const [newRating, setNewRating] = useState('');
+  const [commentMovieId, setCommentMovieId] = useState(null);
+
   function handleSelectedMovie(id) {
     const newMovie = movies.find((movie) => movie.mal_id === id);
     setSelectedMovie(newMovie);
   }
 
-  function handleCloseModal() {
+  function handleToggleWatched(movie) {
+    const isAlreadyWatched = watched.some((m) => m.mal_id === movie.mal_id);
+
+    if (isAlreadyWatched) {
+      const updatedWatched = watched.filter((m) => m.mal_id !== movie.mal_id);
+      setWatched(updatedWatched);
+      saveWatchedMovies(updatedWatched);
+      return;
+    }
+
+    setCommentMovieId(movie.mal_id);
     setSelectedMovie(null);
   }
 
-  function handleToggleWatched(movie) {
-    const isAlreadyWatched = watched.some((m) => m.mal_id === movie.mal_id);
-    let updatedWatched;
+  function handleAddCommentAndRating(movieId) {
+    if (!newComment || !newRating) return;
 
-    if (isAlreadyWatched) {
-      updatedWatched = watched.filter((m) => m.mal_id !== movie.mal_id);
-    } else {
-      updatedWatched = [...watched, movie];
-    }
+    const movie = movies.find((m) => m.mal_id === movieId);
+    const watchedMovie = {
+      ...movie,
+      comment: newComment,
+      userRating: Number(newRating),
+    };
 
+    const updatedWatched = [...watched, watchedMovie];
     setWatched(updatedWatched);
     saveWatchedMovies(updatedWatched);
 
     if (!isOnline) {
-      const action = isAlreadyWatched ? 'remove' : 'add';
-      setPendingUpdates([...pendingUpdates, { action, movie }]);
+      setPendingUpdates([...pendingUpdates, { action: 'add', movie: watchedMovie }]);
     }
+
+    setNewComment('');
+    setNewRating('');
+    setCommentMovieId(null);
   }
 
   useEffect(() => {
@@ -328,54 +345,94 @@ export default function App() {
       <p className="status">{isOnline ? '🟢 Online' : '🔴 Offline'}</p>
 
       <main className="main">
-        <div className="box">
-          <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
-            {isOpen1 ? '–' : '+'}
-          </button>
-          {isOpen1 && (
-            <ul className="list list-movie">
-              {filteredMovies.map((movie) => (
-                <li key={movie.mal_id} onClick={() => handleSelectedMovie(movie.mal_id)}>
-                  <img src={movie.image} alt={`${movie.title} cover`} />
-                  <h3>{movie.title}</h3>
-                  <div>
-                    <p><span>{movie.year}</span></p>
-                  </div>
-                  <button onClick={(e) => {
-                    e.stopPropagation();
-                    handleToggleWatched(movie);
-                  }}>
-                    {watched.some((m) => m.mal_id === movie.mal_id) ? 'Unwatch' : 'Watch'}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
+        <div className="movie-grid">
+          {filteredMovies.map((movie) => (
+            <div
+              key={movie.mal_id}
+              className="movie-card"
+              onClick={() => handleSelectedMovie(movie.mal_id)}
+            >
+              <img src={movie.image} alt={`${movie.title} cover`} />
+              <div className="movie-info">
+                <h3>{movie.title}</h3>
+                <p>{movie.year}</p>
+              </div>
+              <button
+                className="watch-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleToggleWatched(movie);
+                }}
+              >
+                {watched.some((m) => m.mal_id === movie.mal_id)
+                  ? 'Unwatch'
+                  : 'Watch'}
+              </button>
+            </div>
+          ))}
         </div>
 
-        <div className="box watched">
-          <h2>🎬 Watched Movies</h2>
-          <ul>
-            {watched.map((movie) => (
-              <li key={movie.mal_id}>{movie.title}</li>
-            ))}
-          </ul>
-        </div>
-      </main>
-
-      {selectedMovie && (
-        <div className="modal" onClick={handleCloseModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={handleCloseModal}>×</button>
-            <img src={selectedMovie.image} alt={`${selectedMovie.title} cover`} />
-            <div className="details-overview">
+        {selectedMovie && (
+          <div className="modal" onClick={() => setSelectedMovie(null)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <span className="close" onClick={() => setSelectedMovie(null)}>
+                &times;
+              </span>
+              <img src={selectedMovie.image} alt={`${selectedMovie.title} cover`} />
               <h2>{selectedMovie.title}</h2>
-              <p>{selectedMovie.year} • {selectedMovie.score}</p>
-              <p><em>{selectedMovie.synopsis}</em></p>
+              <p><strong>Year:</strong> {selectedMovie.year}</p>
+              <p><strong>Score:</strong> {selectedMovie.score}</p>
+              <p className="synopsis">{selectedMovie.synopsis}</p>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {commentMovieId && (
+          <div className="modal" onClick={() => setCommentMovieId(null)}>
+            <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+              <span className="close" onClick={() => setCommentMovieId(null)}>
+                &times;
+              </span>
+              <h2>Add Comment and Rating</h2>
+              <textarea
+                rows="4"
+                placeholder="Write your comment..."
+                value={newComment}
+                onChange={(e) => setNewComment(e.target.value)}
+              ></textarea>
+              <input
+                type="number"
+                placeholder="Rate this movie (1-10)"
+                value={newRating}
+                min="1"
+                max="10"
+                onChange={(e) => setNewRating(e.target.value)}
+              />
+              <button onClick={() => handleAddCommentAndRating(commentMovieId)}>
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+
+        <aside className="watched-box">
+          <h2>🎬 Watched Movies</h2>
+          {watched.length === 0 ? (
+            <p>No watched movies yet.</p>
+          ) : (
+            watched.map((movie) => (
+              <div key={movie.mal_id} className="watched-card">
+                <img src={movie.image} alt={movie.title} />
+                <div>
+                  <h4>{movie.title}</h4>
+                  <p><strong>Comment:</strong> {movie.comment}</p>
+                  <p><strong>Your Rating:</strong> {movie.userRating}/10</p>
+                </div>
+              </div>
+            ))
+          )}
+        </aside>
+      </main>
     </>
   );
 }
