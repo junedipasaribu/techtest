@@ -40,7 +40,7 @@ const moviesData = [
     mal_id: 4,
     title: 'Interstellar',
     year: 2014,
-    image: 'https://image.tmdb.org/t/p/w500/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg',
+    image: 'https://media.themoviedb.org/t/p/w600_and_h900_bestv2/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg',
     score: 8.6,
     synopsis: 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity’s survival.',
   },

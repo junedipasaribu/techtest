@@ -15,10 +15,15 @@ body {
 
 /* Navbar */
 .nav-bar {
+  background-color: #1f1f1f;
+  padding: 1rem 2rem;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
+  border-bottom: 2px solid #444;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
 .logo h1 {
@@ -48,7 +53,7 @@ body {
 
 /* Online Status */
 .status {
-  text-align: center;
+  text-align: right;
   margin-bottom: 1rem;
   color: #ddd;
 }
