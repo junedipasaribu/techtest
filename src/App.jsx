@@ -333,7 +333,7 @@ export default function App() {
           <input
             className="search"
             type="text"
-            placeholder="Cari Film...."
+            placeholder="Search Film...."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
