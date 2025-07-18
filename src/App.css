@@ -227,3 +227,15 @@ body {
   font-size: 0.95rem;
   color: #ccc;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.logo-img {
+  height: 70px;
+  width: 70px;
+  object-fit: contain;
+}

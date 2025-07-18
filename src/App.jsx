@@ -326,7 +326,8 @@ export default function App() {
     <>
       <nav className="nav-bar">
         <div className="logo">
-          <h1>MOVIE WEB TECHTEST</h1>
+           <img src="https://upload.wikimedia.org/wikipedia/commons/4/47/PNG_transparency_demonstration_1.png" alt="" className="logo-img" />
+          <h1>JunPs MOVIE</h1>
         </div>
         <div className="search-container">
           <input
